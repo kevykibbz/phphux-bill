@@ -12,9 +12,5 @@
       "src": "/webhook/paystack",
       "dest": "/api/paystack-webhook.php"
     }
-  ],
-  "env": {
-    "PHPNUXBILL_URL": "http://localhost/phpnuxbill",
-    "PAYSTACK_SECRET": "[REDACTED_PAYSTACK_KEY]"
-  }
+  ]
 }
