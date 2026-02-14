@@ -6,8 +6,8 @@ https://phpnuxbill-webhooks.vercel.app/webhook/paystack
 ```
 
 ## 🔑 Keys
-- **Live Secret:** `[REDACTED_PAYSTACK_KEY]`
-- **Live Public:** `[REDACTED_PAYSTACK_PUBLIC_KEY]`
+- **Live Secret:** `[See .env file - PAYSTACK_SECRET_KEY_LIVE]`
+- **Live Public:** `[See .env file - PAYSTACK_PUBLIC_KEY_LIVE]`
 
 ## 💳 Test Card
 ```

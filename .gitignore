@@ -47,12 +47,12 @@ system/cache/**
 *_old
 temp_*
 
-# Plugins (keep only index files)
-syComposer Dependencies
+# Composer Dependencies
 vendor/
 composer.lock
 
-# stem/plugin/*
+# Plugins (keep only index files)
+system/plugin/*
 !system/plugin/index.html
 !system/plugin/ui/
 system/plugin/ui/*
