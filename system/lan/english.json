@@ -687,5 +687,6 @@
     "Refill_Token_PIN": "Refill Token PIN",
     "Enter_the_amount": "Enter the amount",
     "Send_Notification": "Send Notification",
-    "Refill": "Refill"
+    "Refill": "Refill",
+    "Cron_has_not_run_for_over_1_hour__Please_check_your_setup_": "Cron has not run for over 1 hour. Please check your setup."
 }
