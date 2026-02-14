@@ -1,0 +1,102 @@
+# Configuration & Credentials
+config.php
+.env
+.env.*
+*.local
+
+# Sensitive Documentation (contains API keys, secrets, test data)
+VERCEL_DEPLOYMENT.md
+LIVE_TESTING_GUIDE.md
+QUICK_REFERENCE.md
+test_webhook.ps1
+test_webhook.sh
+update_paystack_live.php
+
+# Database backups
+*.sql
+*.sqlite
+*.db
+
+# IDE & System Files
+.DS_Store
+.vscode/
+/.vs
+.idea
+.htaccess
+
+# PHP Compiled & Cache
+ui/ui/compiled
+ui/compiled/*.php
+ui/cache/*.php
+test.php
+sms.php
+pages/
+system/cache/**
+!system/cache/index.html
+
+# Plugins (keep only index files)
+system/plugin/*
+!system/plugin/index.html
+!system/plugin/ui/
+system/plugin/ui/*
+!system/plugin/ui/index.html
+
+# Payment Gateway
+system/paymentgateway/ui/**
+system/paymentgateway/**
+!system/paymentgateway/ui/
+!system/paymentgateway/ui/index.html
+!system/paymentgateway/index.html
+
+# UI Customization
+ui/ui_custom/**
+!ui/ui_custom/index.html
+!ui/ui_custom/README.md
+ui/themes/**
+!ui/themes/index.html
+!ui/themes/README.md
+
+# Uploads (keep only defaults)
+system/uploads/**
+!system/uploads/*.default.png
+!system/uploads/paid.png
+system/uploads/sms/**
+!system/uploads/sms/index.html
+system/uploads/system/**
+!system/uploads/system/index.html
+system/uploads/invoices/**
+
+# Language Files
+scanLang.php
+system/lan/**
+!system/lan/index.html
+!system/lan/indonesia.json
+!system/lan/spanish.json
+!system/lan/turkish.json
+!system/lan/english.json
+!system/lan/country.json
+
+# Device Drivers (keep only essentials)
+system/devices/**
+!system/devices/readme.md
+!system/devices/Dummy.php
+!system/devices/Radius.php
+!system/devices/RadiusRest.php
+!system/devices/MikrotikPppoe.php
+!system/devices/MikrotikPppoeCustom.php
+!system/devices/MikrotikHotspot.php
+
+# Build & Deployment
+.vercel
+docker-compose.yml
+*.zip
+
+# Documentation (selective)
+docs/**
+!docs/*.html
+!docs/*.md
+!docs/insomnia.rest.json
+
+# Logs
+*.log
+logs/

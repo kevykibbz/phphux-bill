@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "name": "phpnuxbill-webhooks",
+  "builds": [
+    {
+      "src": "api/**/*.php",
+      "use": "@vercel/php"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/webhook/paystack",
+      "dest": "/api/paystack-webhook.php"
+    }
+  ]
+}
