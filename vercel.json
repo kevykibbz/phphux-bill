@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "name": "phpnuxbill-webhooks",
+  "builds": [
+    {
+      "src": "api/**/*.php",
+      "use": "@vercel/php"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/webhook/paystack",
+      "dest": "/api/paystack-webhook.php"
+    }
+  ],
+  "env": {
+    "PHPNUXBILL_URL": "http://localhost/phpnuxbill",
+    "PAYSTACK_SECRET": "[REDACTED_PAYSTACK_KEY]"
+  }
+}
