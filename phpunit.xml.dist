@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+         bootstrap="system/boot.php"
+         colors="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         stopOnFailure="false">
+    
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">tests/unit</directory>
+        </testsuite>
+        
+        <testsuite name="Integration">
+            <directory suffix="Test.php">tests/integration</directory>
+        </testsuite>
+        
+        <testsuite name="API">
+            <directory suffix="Test.php">tests/api</directory>
+        </testsuite>
+    </testsuites>
+    
+    <coverage>
+        <include>
+            <directory suffix=".php">system</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">system/vendor</directory>
+            <directory suffix=".php">system/cache</directory>
+            <directory suffix=".php">system/uploads</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="coverage/html"/>
+            <text outputFile="php://stdout" showOnlySummary="true"/>
+        </report>
+    </coverage>
+    
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="DB_DATABASE" value="phpnuxbill_test"/>
+    </php>
+    
+</phpunit>

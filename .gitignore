@@ -4,12 +4,18 @@ config.php
 .env.*
 *.local
 
-# Sensitive Documentation (contains API keys, secrets, test data)
-VERCEL_DEPLOYMENT.md
-LIVE_TESTING_GUIDE.md
-QUICK_REFERENCE.md
-test_webhook.ps1
-test_webhook.sh
+# Scripts & Backups (organized in scripts/)
+scripts/*.backup
+scripts/config.php*
+scripts/cookies.txt
+scripts/*.tmp
+
+# Sensitive Documentation (now organized in docs/)
+docs/deployment/VERCEL_DEPLOYMENT.md
+docs/testing/LIVE_TESTING_GUIDE.md
+docs/QUICK_REFERENCE.md
+tests/scripts/test_webhook.ps1
+tests/scripts/test_webhook.sh
 update_paystack_live.php
 
 # Database backups
@@ -34,8 +40,19 @@ pages/
 system/cache/**
 !system/cache/index.html
 
+# Development & Temporary Files
+*.tmp
+*.temp
+*_backup
+*_old
+temp_*
+
 # Plugins (keep only index files)
-system/plugin/*
+syComposer Dependencies
+vendor/
+composer.lock
+
+# stem/plugin/*
 !system/plugin/index.html
 !system/plugin/ui/
 system/plugin/ui/*
@@ -100,3 +117,29 @@ docs/**
 # Logs
 *.log
 logs/
+
+# Test Coverage & Reports
+coverage/
+*.coverage
+phpunit.xml
+.phpunit.result.cache
+
+# Temporary Test Files
+tests/**/*.tmp
+tests/**/temp_*
+tests/fixtures/data/*.test.json
+
+# Keep test structure
+!tests/
+!tests/**/*.php
+!tests/**/*.md
+!tests/**/README.md
+
+# Summary
+CODEBASE_SUMMARY.md
+DEVELOPMENT_GUIDELINES.md
+PROJECT_MEMORY.md
+PROJECT_STRUCTURE.md
+
+# AI Instructions
+.ai-instructions.md

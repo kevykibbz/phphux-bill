@@ -80,6 +80,24 @@ Edit database credentials and other settings as needed.
 - [API Documentation](docs/insomnia.rest.json)
 - [Changelog](CHANGELOG.md)
 
+### 📖 Project Documentation
+
+**Essential Reading:**
+- [AI Instructions](.ai-instructions.md) - Guidelines for AI assistants working on this project
+- [Project Memory](PROJECT_MEMORY.md) - Long-term project guidelines and critical warnings
+- [Project Structure](PROJECT_STRUCTURE.md) - Complete architecture documentation
+- [Development Guidelines](DEVELOPMENT_GUIDELINES.md) - Coding standards and best practices
+- [Codebase Summary](CODEBASE_SUMMARY.md) - Quick reference overview
+
+**Organized Documentation:**
+- [Deployment Guides](docs/deployment/) - How to deploy to various platforms
+- [Testing Documentation](docs/testing/) - Testing strategies and guides
+- [Root Organization](docs/ROOT_ORGANIZATION.md) - File organization reference
+
+**Development Resources:**
+- [Testing Suite](tests/README.md) - How to write and run tests
+- [Scripts Documentation](scripts/README.md) - Utility scripts and automation
+
 ## 🤝 Community & Support
 
 ### Free Support
