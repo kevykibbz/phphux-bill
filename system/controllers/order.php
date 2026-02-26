@@ -163,10 +163,10 @@ switch ($action) {
             r2(getUrl('order/package'), 'w', Lang::T("Payment not found"));
         }
         // jika url kosong, balikin ke buy, kecuali cancel
-        if ($trx['status'] == 1 && empty($trx['pg_url_payment']) && $routes['3'] != 'cancel') {
+        if ($trx['status'] == 1 && empty($trx['pg_url_payment']) && (!isset($routes['3']) || $routes['3'] != 'cancel')) {
             r2(getUrl('order/buy/') . (($trx['routers_id'] == 0) ? $trx['routers'] : $trx['routers_id']) . '/' . $trx['plan_id'], 'w', Lang::T("Checking payment"));
         }
-        if ($routes['3'] == 'check') {
+        if (isset($routes['3']) && $routes['3'] == 'check') {
             if (!file_exists($PAYMENTGATEWAY_PATH . DIRECTORY_SEPARATOR . $trx['gateway'] . '.php')) {
                 r2(getUrl('order/view/') . $trxid, 'e', Lang::T("No Payment Gateway Available"));
             }
@@ -174,7 +174,7 @@ switch ($action) {
             include $PAYMENTGATEWAY_PATH . DIRECTORY_SEPARATOR . $trx['gateway'] . '.php';
             call_user_func($trx['gateway'] . '_validate_config');
             call_user_func($trx['gateway'] . '_get_status', $trx, $user);
-        } else if ($routes['3'] == 'cancel') {
+        } else if (isset($routes['3']) && $routes['3'] == 'cancel') {
             run_hook('customer_cancel_payment'); #HOOK
             $trx->pg_paid_response = '{}';
             $trx->status = 4;
@@ -190,13 +190,51 @@ switch ($action) {
 
         $router = ORM::for_table('tbl_routers')->where('name', $trx['routers'])->find_one();
         $plan = ORM::for_table('tbl_plans')->find_one($trx['plan_id']);
-        $bandw = ORM::for_table('tbl_bandwidth')->find_one($plan['id_bw']);
+        $bandw = null;
+        if ($plan) {
+            $bandw = ORM::for_table('tbl_bandwidth')->find_one($plan['id_bw']);
+        }
         $invoice = ORM::for_table('tbl_transactions')->where("invoice", $trx['trx_invoice'])->find_one();
+
+        // Initialize default values for template
+        $add_cost = 0;
+        $bills = [];
+
+        // Handle null router
+        if (!$router) {
+            $router = ['name' => $trx['routers'], 'description' => ''];
+        }
+
+        // Handle null plan
+        if (!$plan) {
+            $plan = [
+                'name_plan' => 'N/A',
+                'price' => 0,
+                'type' => 'N/A',
+                'validity' => '0',
+                'validity_unit' => 'Days'
+            ];
+        }
+
+        // Handle null bandwidth
+        if (!$bandw) {
+            $bandw = [
+                'name_bw' => 'N/A',
+                'rate_down' => '0',
+                'rate_down_unit' => 'Kbps',
+                'rate_up' => '0',
+                'rate_up_unit' => 'Kbps'
+            ];
+        }
+
         $ui->assign('invoice', $invoice);
         $ui->assign('trx', $trx);
         $ui->assign('router', $router);
         $ui->assign('plan', $plan);
         $ui->assign('bandw', $bandw);
+        $ui->assign('ds', $plan);
+        $ui->assign('add_cost', $add_cost);
+        $ui->assign('bills', $bills);
         $ui->assign('_title', 'TRX #' . $trxid);
         $ui->display('customer/orderView.tpl');
         break;
@@ -406,16 +444,19 @@ switch ($action) {
             $tax_rate = $tax_rate_setting;
         }
         $plan = ORM::for_table('tbl_plans')->find_one($routes['3']);
+        $router = ORM::for_table('tbl_routers')->where('enabled', '1')->find_one($routes['2']);
+        $id_customer = $user['id'];
         $add_cost = 0;
-        if ($router['name'] != 'balance') {
+        $bills = [];
+        if ($router && $router['name'] != 'balance') {
             list($bills, $add_cost) = User::getBills($id_customer);
         }
-		$add_inv = User::getAttribute("Invoice", $id_customer);
-		if (!empty($add_inv)) {
-			$plan['price'] = $add_inv;
-		}
+        $add_inv = User::getAttribute("Invoice", $id_customer);
+        if (!empty($add_inv)) {
+            $plan['price'] = $add_inv;
+        }
 
-        if($config['enable_coupons']){
+        if (isset($config['enable_coupons']) && $config['enable_coupons']) {
             if (!isset($_SESSION['coupon_attempts'])) {
                 $_SESSION['coupon_attempts'] = 0;
                 $_SESSION['last_attempt_time'] = time();
@@ -510,9 +551,16 @@ switch ($action) {
             r2(getUrl('home'), 'e', Lang::T("Failed to create Transaction.."));
         }
         if (count($pgs) > 0) {
+            // Assign default empty values for optional variables
+            $ui->assign('discount', '');
+            $ui->assign('custom', '');
+            $ui->assign('amount', '');
+
             $ui->assign('pgs', $pgs);
             if ($tax_enable === 'yes') {
                 $ui->assign('tax', $tax);
+            } else {
+                $ui->assign('tax', 0);
             }
 
             if (_post('custom') == '1') {

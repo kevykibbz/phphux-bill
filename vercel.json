@@ -1,16 +1,19 @@
 {
   "version": 2,
-  "name": "phpnuxbill-webhooks",
   "builds": [
     {
-      "src": "api/**/*.php",
-      "use": "@vercel/php"
+      "src": "api/**/*.ts",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/webhook/paystack",
-      "dest": "/api/paystack-webhook.php"
+      "dest": "/api/callback/paystack.ts"
+    },
+    {
+      "src": "/api/callback/paystack",
+      "dest": "/api/callback/paystack.ts"
     }
   ]
 }

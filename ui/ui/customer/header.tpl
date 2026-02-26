@@ -81,13 +81,13 @@
                                     <span>{$_user['fullname']}</span>
                                 {/if}
                                 <img src="{$app_url}/{$UPLOAD_PATH}{$_user['photo']}.thumb.jpg"
-                                    onerror="this.src='{$app_url}/{$UPLOAD_PATH}/user.default.jpg'" class="user-image"
+                                    onerror="this.src='{$app_url}/profile_placeholder.png'" class="user-image"
                                     alt="User Image">
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="user-header">
                                     <img src="{$app_url}/{$UPLOAD_PATH}{$_user['photo']}.thumb.jpg"
-                                        onerror="this.src='{$app_url}/{$UPLOAD_PATH}/user.default.jpg'" class="img-circle"
+                                        onerror="this.src='{$app_url}/profile_placeholder.png'" class="img-circle"
                                         alt="User Image">
 
                                     <p>
@@ -137,7 +137,7 @@
                             <span>{Lang::T('Inbox')}</span>
                         </a>
                     </li>
-                    {$_MENU_AFTER_INBOX}
+                    {if isset($_MENU_AFTER_INBOX)}{$_MENU_AFTER_INBOX}{/if}
                     {if $_c['disable_voucher'] != 'yes'}
                         <li {if $_system_menu eq 'voucher'}class="active" {/if}>
                             <a href="{Text::url('voucher/activation')}">
@@ -168,14 +168,14 @@
                             </a>
                         </li>
                     {/if}
-                    {$_MENU_AFTER_ORDER}
+                    {if isset($_MENU_AFTER_ORDER)}{$_MENU_AFTER_ORDER}{/if}
                     <li {if $_system_menu eq 'list-activated'}class="active" {/if}>
                         <a href="{Text::url('voucher/list-activated')}">
                             <i class="fa fa-list-alt"></i>
                             <span>{Lang::T('Activation History')}</span>
                         </a>
                     </li>
-                    {$_MENU_AFTER_HISTORY}
+                    {if isset($_MENU_AFTER_HISTORY)}{$_MENU_AFTER_HISTORY}{/if}
                 </ul>
             </section>
         </aside>

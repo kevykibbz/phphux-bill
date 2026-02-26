@@ -28,7 +28,7 @@
                         <label class="col-md-2 control-label">{Lang::T('Service Type')}</label>
                         <div class="col-md-6">
                             <select class="form-control" name="service" id="service">
-                                <option value="all" {if $group=='all' }selected{/if}>{Lang::T('All')}</option>
+                                <option value="all" {if $service=='all' }selected{/if}>{Lang::T('All')}</option>
                                 <option value="PPPoE" {if $service=='PPPoE' }selected{/if}>{Lang::T('PPPoE')}</option>
                                 <option value="Hotspot" {if $service=='Hotspot' }selected{/if}>{Lang::T('Hotspot')}</option>
                                 <option value="VPN" {if $service=='VPN' }selected{/if}>{Lang::T('VPN')}</option>

@@ -21,19 +21,19 @@
                     <input type="hidden" name="csrf_token" value="{$csrf_token}">
                     <div class="form-group">
                         <label>
-                            {if $_c['registration_username'] == 'phone'}
+                            {if isset($_c['registration_username']) && $_c['registration_username'] == 'phone'}
                                 {Lang::T('Phone Number')}
-                            {elseif $_c['registration_username'] == 'email'}
+                            {elseif isset($_c['registration_username']) && $_c['registration_username'] == 'email'}
                                 {Lang::T('Email')}
                             {else}
                                 {Lang::T('Usernames')}
                             {/if}
                         </label>
                         <div class="input-group">
-                            {if $_c['registration_username'] == 'phone'}
+                            {if isset($_c['registration_username']) && $_c['registration_username'] == 'phone'}
                                 <span class="input-group-addon" id="basic-addon1"><i
                                         class="glyphicon glyphicon-phone-alt"></i></span>
-                            {elseif $_c['registration_username'] == 'email'}
+                            {elseif isset($_c['registration_username']) && $_c['registration_username'] == 'email'}
                                 <span class="input-group-addon" id="basic-addon1"><i
                                         class="glyphicon glyphicon-envelope"></i></span>
                             {else}
@@ -41,7 +41,7 @@
                                         class="glyphicon glyphicon-user"></i></span>
                             {/if}
                             <input type="text" class="form-control" name="username"
-                                placeholder="{if $_c['country_code_phone']!= '' || $_c['registration_username'] == 'phone'}{$_c['country_code_phone']} {Lang::T('Phone Number')}{elseif $_c['registration_username'] == 'email'}{Lang::T('Email')}{else}{Lang::T('Usernames')}{/if}">
+                                placeholder="{if (isset($_c['country_code_phone']) && $_c['country_code_phone']!= '') || (isset($_c['registration_username']) && $_c['registration_username'] == 'phone')}{if isset($_c['country_code_phone'])}{$_c['country_code_phone']}{/if} {Lang::T('Phone Number')}{elseif isset($_c['registration_username']) && $_c['registration_username'] == 'email'}{Lang::T('Email')}{else}{Lang::T('Usernames')}{/if}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <div class="btn-group btn-group-justified mb15">
-                        {if $_c['disable_registration'] != 'noreg'}
+                        {if !isset($_c['disable_registration']) || $_c['disable_registration'] != 'noreg'}
                             <div class="btn-group">
                                 <a href="{Text::url('register')}" class="btn btn-success">{Lang::T('Register')}</a>
                             </div>

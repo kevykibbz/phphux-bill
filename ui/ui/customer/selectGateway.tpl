@@ -71,7 +71,7 @@
                         </li>
                     </ul>
                 {/if}
-                {if $discount == '' && $plan['type'] neq 'Balance' && $custom == '' && $_c['enable_coupons'] == 'yes'}
+                {if $discount == '' && $plan['type'] neq 'Balance' && $custom == '' && isset($_c['enable_coupons']) && $_c['enable_coupons'] == 'yes'}
                     <!-- Coupon Code Form -->
                     <form action="{Text::url('order/gateway/')}{$route2}/{$route3}" method="post">
                         <div class="form-group row">

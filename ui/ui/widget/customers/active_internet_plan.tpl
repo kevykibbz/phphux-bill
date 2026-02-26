@@ -7,10 +7,10 @@
                     <div class="btn-group pull-right">
                         {if $_bill['type'] == 'Hotspot'}
                             {if $_c['hotspot_plan']==''}Hotspot Plan{else}{$_c['hotspot_plan']}{/if}
-                        {else if $_bill['type'] == 'PPPOE'}
+                        {elseif $_bill['type'] == 'PPPOE'}
                             {if $_c['pppoe_plan']==''}PPPOE Plan{else}{$_c['pppoe_plan']}{/if}
-                        {else if $_bill['type'] == 'VPN'}
-                            {if $_c['pppoe_plan']==''}VPN Plan{else}{$_c['vpn_plan']}{/if}
+                        {elseif $_bill['type'] == 'VPN'}
+                            {if $_c['vpn_plan']==''}VPN Plan{else}{$_c['vpn_plan']}{/if}
                         {/if}
                     </div>
                 </div>
@@ -26,17 +26,14 @@
                         <td class="small mb15">
                             {$_bill['namebp']}
                             {if $_bill['status'] != 'on'}
-                                <a class="label label-danger pull-right"
-                                    href="{Text::url('order/package')}">{Lang::T('Expired')}</a>
+                                <a class="label label-danger pull-right" href="{Text::url('order/package')}">{Lang::T('Expired')}</a>
                             {/if}
                         </td>
                     </tr>
-                    {if $_c['show_bandwidth_plan'] == 'yes'}
+                    {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                         <tr>
                             <td class="small text-primary text-uppercase text-normal">{Lang::T('Bandwidth')}</td>
-                            <td class="small mb15">
-                                {$_bill['name_bw']}
-                            </td>
+                            <td class="small mb15">{$_bill['name_bw']}</td>
                         </tr>
                     {/if}
                     <tr>
@@ -72,16 +69,14 @@
                             <td class="small mb15">{$_user['pppoe_ip']}</td>
                         </tr>
                         {foreach $cf as $tcf}
-                            <tr>
-                                {if $tcf['field_name'] == 'Winbox' or $tcf['field_name'] == 'Api' or $tcf['field_name'] == 'Web'}
+                            {if $tcf['field_name'] == 'Winbox' or $tcf['field_name'] == 'Api' or $tcf['field_name'] == 'Web'}
+                                <tr>
                                     <td class="small text-info text-uppercase text-normal">{$tcf['field_name']} - Port</td>
-                                    <td class="small mb15"><a href="http://{$vpn['public_ip']}:{$tcf['field_value']}"
-                                            target="_blank">{$tcf['field_value']}</a></td>
+                                    <td class="small mb15"><a href="http://{$vpn['public_ip']}:{$tcf['field_value']}" target="_blank">{$tcf['field_value']}</a></td>
                                 </tr>
                             {/if}
                         {/foreach}
                     {/if}
-
                     {if $nux_ip neq ''}
                         <tr>
                             <td class="small text-primary text-uppercase text-normal">{Lang::T('Current IP')}</td>
@@ -107,12 +102,9 @@
                             <td class="small text-primary text-uppercase text-normal">{Lang::T('Login Status')}</td>
                             <td class="small mb15">
                                 {if $logged == '1'}
-                                    <a href="http://{$hostname}/status" class="btn btn-success btn-xs btn-block">
-                                        {Lang::T('You are Online, Check Status')}</a>
+                                    <a href="http://{$hostname}/status" class="btn btn-success btn-xs btn-block">{Lang::T('You are Online, Check Status')}</a>
                                 {else}
-                                    <a href="{Text::url('home&mikrotik=login')}"
-                                        onclick="return ask(this, '{Lang::T('Connect to Internet')}')"
-                                        class="btn btn-danger btn-xs btn-block">{Lang::T('Not Online, Login now?')}</a>
+                                    <a href="{Text::url('home&mikrotik=login')}" onclick="return ask(this, '{Lang::T('Connect to Internet')}')" class="btn btn-danger btn-xs btn-block">{Lang::T('Not Online, Login now?')}</a>
                                 {/if}
                             </td>
                         </tr>
@@ -120,26 +112,15 @@
                     <tr>
                         <td class="small text-primary text-uppercase text-normal">
                             {if $_bill['status'] == 'on' && $_bill['prepaid'] != 'YES'}
-                                <a href="{Text::url('home&deactivate=', $_bill['id'])}"
-                                    onclick="return ask(this, '{Lang::T('Deactivate')}?')" class="btn btn-danger btn-xs"><i
-                                        class="glyphicon glyphicon-trash"></i></a>
+                                <a href="{Text::url('home&deactivate=', $_bill['id'])}" onclick="return ask(this, '{Lang::T('Deactivate')}?')" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>
                             {/if}
                         </td>
                         <td class="small row">
                             {if $_bill['status'] != 'on' && $_bill['prepaid'] != 'yes' && $_c['extend_expired']}
-                                <a class="btn btn-warning text-black btn-sm"
-                                    href="{Text::url('home&extend=', $_bill['id'], '&stoken=', App::getToken())}"
-                                    onclick="return ask(this, '{Text::toHex($_c['extend_confirmation'])}')">{Lang::T('Extend')}</a>
+                                <a class="btn btn-warning text-black btn-sm" href="{Text::url('home&extend=', $_bill['id'], '&stoken=', App::getToken())}" onclick="return ask(this, '{Text::toHex($_c['extend_confirmation'])}')">{Lang::T('Extend')}</a>
                             {/if}
-                            <a class="btn btn-primary pull-right btn-sm"
-                                href="{Text::url('home&recharge=', $_bill['id'], '&stoken=', App::getToken())}"
-                                onclick="return ask(this, '{Lang::T('Recharge')}?')">{Lang::T('Recharge')}</a>
-                            <a class="btn btn-warning text-black pull-right btn-sm"
-                                href="{Text::url('home&sync=', $_bill['id'], '&stoken=', App::getToken())}"
-                                onclick="return ask(this, '{Lang::T('Sync account if you failed login to internet')}?')"
-                                data-toggle="tooltip" data-placement="top"
-                                title="{Lang::T('Sync account if you failed login to internet')}"><span
-                                    class="glyphicon glyphicon-refresh" aria-hidden="true"></span> {Lang::T('Sync')}</a>
+                            <a class="btn btn-primary pull-right btn-sm" href="{Text::url('home&recharge=', $_bill['id'], '&stoken=', App::getToken())}" onclick="return ask(this, '{Lang::T('Recharge')}?')">{Lang::T('Recharge')}</a>
+                            <a class="btn btn-warning text-black pull-right btn-sm" href="{Text::url('home&sync=', $_bill['id'], '&stoken=', App::getToken())}" onclick="return ask(this, '{Lang::T('Sync account if you failed login to internet')}?')" data-toggle="tooltip" data-placement="top" title="{Lang::T('Sync account if you failed login to internet')}"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> {Lang::T('Sync')}</a>
                         </td>
                     </tr>
                 </table>

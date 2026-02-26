@@ -16,6 +16,7 @@
  * @version  0.3.0
  * @link     http://pear2.php.net/PEAR2_Autoload
  */
+
 namespace PEAR2;
 
 if (!class_exists('\PEAR2\Autoload', false)) {
@@ -116,7 +117,8 @@ if (!class_exists('\PEAR2\Autoload', false)) {
          * @var array
          */
         protected static $checkFunctions = array(
-            'class_exists', 'interface_exists'
+            'class_exists',
+            'interface_exists'
         );
 
         /**
@@ -203,7 +205,7 @@ if (!class_exists('\PEAR2\Autoload', false)) {
                 // instance so we can update it if necessary
                 self::$mapfile = $mapfile;
 
-                if (is_file($mapfile)) {
+                if ($mapfile !== null && is_file($mapfile)) {
                     $map = include $mapfile;
                     if (is_array($map)) {
                         // mapfile contains a valid map, so we'll keep it
@@ -219,7 +221,6 @@ if (!class_exists('\PEAR2\Autoload', false)) {
                         }
                     }
                 }
-
             }
         }
 
@@ -285,8 +286,8 @@ if (!class_exists('\PEAR2\Autoload', false)) {
                         }
                         throw new \Exception(
                             'Class ' . $class . ' was not present in ' .
-                            $path . DIRECTORY_SEPARATOR . $file .
-                            '") [PEAR2_Autoload-@PACKAGE_VERSION@]'
+                                $path . DIRECTORY_SEPARATOR . $file .
+                                '") [PEAR2_Autoload-@PACKAGE_VERSION@]'
                         );
                     }
 
@@ -304,17 +305,19 @@ if (!class_exists('\PEAR2\Autoload', false)) {
             }
             $e = new \Exception(
                 'Class ' . $class . ' could not be loaded from ' .
-                $file . ', file does not exist (registered paths="' .
-                implode(PATH_SEPARATOR, self::$paths) .
-                '") [PEAR2_Autoload-@PACKAGE_VERSION@]'
+                    $file . ', file does not exist (registered paths="' .
+                    implode(PATH_SEPARATOR, self::$paths) .
+                    '") [PEAR2_Autoload-@PACKAGE_VERSION@]'
             );
             $trace = $e->getTrace();
-            if (isset($trace[2]) && isset($trace[2]['function'])
+            if (
+                isset($trace[2]) && isset($trace[2]['function'])
                 && in_array($trace[2]['function'], self::$checkFunctions)
             ) {
                 return false;
             }
-            if (isset($trace[1]) && isset($trace[1]['function'])
+            if (
+                isset($trace[1]) && isset($trace[1]['function'])
                 && in_array($trace[1]['function'], self::$checkFunctions)
             ) {
                 return false;
@@ -334,7 +337,7 @@ if (!class_exists('\PEAR2\Autoload', false)) {
             return class_exists($class, false)
                 || interface_exists($class, false)
                 || (in_array('trait_exists', self::$checkFunctions, true)
-                && trait_exists($class, false));
+                    && trait_exists($class, false));
         }
 
         /**
@@ -348,15 +351,16 @@ if (!class_exists('\PEAR2\Autoload', false)) {
          */
         protected static function updateMap($class, $origin)
         {
-            if (is_writable(self::$mapfile)
-                || is_writable(dirname(self::$mapfile))
+            if (
+                is_string(self::$mapfile) && (is_writable(self::$mapfile)
+                    || is_writable(dirname(self::$mapfile)))
             ) {
                 self::$map[$class] = $origin;
                 file_put_contents(
                     self::$mapfile,
-                    '<'."?php\n"
-                    . "// PEAR2\Autoload auto-generated classmap\n"
-                    . "return " . var_export(self::$map, true) . ';',
+                    '<' . "?php\n"
+                        . "// PEAR2\Autoload auto-generated classmap\n"
+                        . "return " . var_export(self::$map, true) . ';',
                     LOCK_EX
                 );
             }

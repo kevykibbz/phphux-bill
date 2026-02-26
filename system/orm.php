@@ -949,11 +949,14 @@ class ORM implements ArrayAccess
      */
     public function selects($columns = array())
     {
+        if (!is_array($columns)) {
+            $columns = array($columns);
+        }
         foreach ($columns as $column) {
-            if(is_array($column)) {
+            if (is_array($column)) {
                 $column[0] = $this->_quote_identifier($column[0]);
                 $this->_add_result_column($column[0], $column[1]);
-            }else{
+            } else {
                 $column = $this->_quote_identifier($column);
                 $this->_add_result_column($column, null);
             }
@@ -961,8 +964,9 @@ class ORM implements ArrayAccess
         return $this;
     }
 
-    public function getEnum($column){
-        $result = $this->raw_query("SHOW COLUMNS FROM ".$this->_table_name." WHERE Field = '$column'")->findArray();
+    public function getEnum($column)
+    {
+        $result = $this->raw_query("SHOW COLUMNS FROM " . $this->_table_name . " WHERE Field = '$column'")->findArray();
         preg_match("/^enum\(\'(.*)\'\)$/", $result[0]['Type'], $matches);
         return explode("','", $matches[1]);
     }
@@ -2694,7 +2698,7 @@ class IdiormResultSet implements Countable, IteratorAggregate, ArrayAccess, Seri
     #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
-        return $this->_results[$offset];
+        return isset($this->_results[$offset]) ? $this->_results[$offset] : null;
     }
 
     /**
@@ -2772,10 +2776,6 @@ class IdiormResultSet implements Countable, IteratorAggregate, ArrayAccess, Seri
 /**
  * A placeholder for exceptions eminating from the IdiormString class
  */
-class IdiormStringException extends Exception
-{
-}
+class IdiormStringException extends Exception {}
 
-class IdiormMethodMissingException extends Exception
-{
-}
+class IdiormMethodMissingException extends Exception {}

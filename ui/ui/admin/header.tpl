@@ -70,14 +70,14 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="{$app_url}/{$UPLOAD_PATH}{$_admin['photo']}.thumb.jpg"
-                                    onerror="this.src='{$app_url}/{$UPLOAD_PATH}/admin.default.png'" class="user-image"
+                                    onerror="this.src='{$app_url}/profile_placeholder.png'" class="user-image"
                                     alt="Avatar">
                                 <span class="hidden-xs">{$_admin['fullname']}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="user-header">
                                     <img src="{$app_url}/{$UPLOAD_PATH}{$_admin['photo']}.thumb.jpg"
-                                        onerror="this.src='{$app_url}/{$UPLOAD_PATH}/admin.default.png'" class="img-circle"
+                                        onerror="this.src='{$app_url}/profile_placeholder.png'" class="img-circle"
                                         alt="Avatar">
                                     <p>
                                         {$_admin['fullname']}
@@ -145,7 +145,7 @@
                                     <li {if $_routes[1] eq 'voucher' }class="active" {/if}><a
                                             href="{Text::url('plan/voucher')}">{Lang::T('Vouchers')}</a></li>
                                 {/if}
-                                {if $_c['enable_coupons'] == 'yes'}
+                                {if isset($_c['enable_coupons']) && $_c['enable_coupons'] == 'yes'}
                                     <li {if $_routes[0] eq 'coupons' }class="active" {/if}><a
                                             href="{Text::url('coupons')}">{Lang::T('Coupons')}</a></li>
                                 {/if}

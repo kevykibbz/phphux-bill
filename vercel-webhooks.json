@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "name": "phpnuxbill-webhooks",
+  "builds": [
+    {
+      "src": "api/**/*.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/**/*.php",
+      "use": "@vercel/php"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/webhook/paystack",
+      "dest": "/api/callback/paystack"
+    },
+    {
+      "src": "/api/callback/paystack",
+      "dest": "/api/callback/paystack.ts"
+    },
+    {
+      "src": "/api/paystack-webhook",
+      "dest": "/api/paystack-webhook.php"
+    },
+    {
+      "src": "/api/health",
+      "dest": "/api/health.ts"
+    }
+  ],
+  "env": {
+    "PAYSTACK_SECRET_KEY": "@paystack-secret-key"
+  }
+}

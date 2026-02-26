@@ -159,7 +159,7 @@
                                 <input type="number" class="form-control" name="price" value="{$d['price']}" required>
                             </div>
                         </div>
-                        {if $_c['enable_tax'] == 'yes'}
+                        {if isset($_c['enable_tax']) && $_c['enable_tax'] == 'yes'}
                             {if $_c['tax_rate'] == 'custom'}
                                 <p class="help-block col-md-3">{number_format($_c['custom_tax_rate'], 2)} % {Lang::T('Tax Rates
                             will be added')}</p>
@@ -246,7 +246,7 @@
                                 <option value='0'>{Lang::T('Default - Remove Customer')}</option>
                                 {foreach $exps as $exp}
                                     <option value="{$exp['id']}" {if $d['plan_expired'] eq $exp['id']} selected {/if}>
-                                        {$exp['name_plan']}</option>
+                                        {$exp['name_plan']|default:''}</option>
                                 {/foreach}
                             </select>
                             <p class="help-block">

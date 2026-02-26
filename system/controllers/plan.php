@@ -77,7 +77,7 @@ switch ($action) {
         if (isset($routes['2']) && !empty($routes['2'])) {
             $ui->assign('cust', ORM::for_table('tbl_customers')->find_one($routes['2']));
         }
-        $usings = explode(',', $config['payment_usings']);
+        $usings = explode(',', $config['payment_usings'] ?? '');
         $usings = array_filter(array_unique($usings));
         if (count($usings) == 0) {
             $usings[] = Lang::T('Cash');
@@ -186,9 +186,11 @@ switch ($action) {
         if (!empty(App::getVoucherValue($svoucher))) {
             $username = App::getVoucherValue($svoucher);
             $in = ORM::for_table('tbl_transactions')->where('username', $username)->order_by_desc('id')->find_one();
-            Package::createInvoice($in);
-            $ui->display('admin/plan/invoice.tpl');
-            die();
+            if ($in) {
+                Package::createInvoice($in);
+                $ui->display('admin/plan/invoice.tpl');
+                die();
+            }
         }
 
         $msg = '';
@@ -244,9 +246,13 @@ switch ($action) {
                     Balance::min($cust['id'], $total_cost);
                 }
                 $in = ORM::for_table('tbl_transactions')->where('username', $cust['username'])->order_by_desc('id')->find_one();
-                Package::createInvoice($in);
-                App::setVoucher($svoucher, $cust['username']);
-                $ui->display('admin/plan/invoice.tpl');
+                if ($in) {
+                    Package::createInvoice($in);
+                    App::setVoucher($svoucher, $cust['username']);
+                    $ui->display('admin/plan/invoice.tpl');
+                } else {
+                    r2(getUrl('plan/recharge'), 'e', "Transaction not found");
+                }
                 _log('[' . $admin['username'] . ']: ' . 'Recharge ' . $cust['username'] . ' [' . $in['plan_name'] . '][' . Lang::moneyFormat($in['price']) . ']', $admin['user_type'], $admin['id']);
             } else {
                 r2(getUrl('plan/recharge'), 'e', "Failed to recharge account");
@@ -259,6 +265,9 @@ switch ($action) {
     case 'view':
         $id = $routes['2'];
         $in = ORM::for_table('tbl_transactions')->where('id', $id)->find_one();
+        if (!$in) {
+            r2(getUrl('plan/list'), 'e', 'Transaction not found');
+        }
         $ui->assign('in', $in);
         if (!empty($routes['3']) && $routes['3'] == 'send') {
             $c = ORM::for_table('tbl_customers')->where('username', $in['username'])->find_one();
@@ -280,7 +289,7 @@ switch ($action) {
             $ui->assign('hlogo', $height);
         }
 
-        $ui->assign('public_url', getUrl("voucher/invoice/$id/".md5($id. $db_pass)));
+        $ui->assign('public_url', getUrl("voucher/invoice/$id/" . md5($id . $db_pass)));
         $ui->assign('logo', $logo);
         $ui->assign('_title', 'View Invoice');
         $ui->display('admin/plan/invoice.tpl');
@@ -504,9 +513,11 @@ switch ($action) {
         $d = Paginator::findMany($query, ["search" => $search], 10, $append_url);
         // extract admin
         $admins = [];
-        foreach ($d as $k) {
-            if (!empty($k['generated_by'])) {
-                $admins[] = $k['generated_by'];
+        if ($d) {
+            foreach ($d as $k) {
+                if (!empty($k['generated_by'])) {
+                    $admins[] = $k['generated_by'];
+                }
             }
         }
         if (count($admins) > 0) {
@@ -528,7 +539,6 @@ switch ($action) {
         $ui->assign('admins', $admins);
         $ui->assign('d', $d);
         $ui->assign('search', $search);
-        $ui->assign('page', $page);
         run_hook('view_list_voucher'); #HOOK
         $ui->display('admin/voucher/list.tpl');
         break;
@@ -960,8 +970,12 @@ switch ($action) {
                 $v1->user = $user['username'];
                 $v1->save();
                 $in = ORM::for_table('tbl_transactions')->where('username', $user['username'])->order_by_desc('id')->find_one();
-                Package::createInvoice($in);
-                $ui->display('admin/plan/invoice.tpl');
+                if ($in) {
+                    Package::createInvoice($in);
+                    $ui->display('admin/plan/invoice.tpl');
+                } else {
+                    r2(getUrl('plan/refill'), 'e', "Transaction not found");
+                }
             } else {
                 r2(getUrl('plan/refill'), 'e', "Failed to refill account");
             }
@@ -995,9 +1009,11 @@ switch ($action) {
         $c = ORM::for_table('tbl_customers')->find_one($user);
         if (App::getVoucherValue($svoucher)) {
             $in = ORM::for_table('tbl_transactions')->find_one(App::getVoucherValue($svoucher));
-            Package::createInvoice($in);
-            $ui->display('admin/plan/invoice.tpl');
-            die();
+            if ($in) {
+                Package::createInvoice($in);
+                $ui->display('admin/plan/invoice.tpl');
+                die();
+            }
         }
 
         run_hook('deposit_customer'); #HOOK
@@ -1008,11 +1024,15 @@ switch ($action) {
             $trxId = Package::rechargeBalance($c, $plan, "Deposit", $admin['fullname'], $note);
             if ($trxId > 0) {
                 $in = ORM::for_table('tbl_transactions')->find_one($trxId);
-                Package::createInvoice($in);
-                if (!empty($svoucher)) {
-                    App::setVoucher($svoucher, $trxId);
+                if ($in) {
+                    Package::createInvoice($in);
+                    if (!empty($svoucher)) {
+                        App::setVoucher($svoucher, $trxId);
+                    }
+                    $ui->display('admin/plan/invoice.tpl');
+                } else {
+                    r2(getUrl('plan/deposit'), 'e', "Transaction not found");
                 }
-                $ui->display('admin/plan/invoice.tpl');
             } else {
                 r2(getUrl('plan/refill'), 'e', "Failed to refill account");
             }
@@ -1021,11 +1041,15 @@ switch ($action) {
             $trxId = Package::rechargeBalance($c, $p, "Deposit", $admin['fullname'], $note);
             if ($trxId > 0) {
                 $in = ORM::for_table('tbl_transactions')->find_one($trxId);
-                Package::createInvoice($in);
-                if (!empty($svoucher)) {
-                    App::setVoucher($svoucher, $trxId);
+                if ($in) {
+                    Package::createInvoice($in);
+                    if (!empty($svoucher)) {
+                        App::setVoucher($svoucher, $trxId);
+                    }
+                    $ui->display('admin/plan/invoice.tpl');
+                } else {
+                    r2(getUrl('plan/deposit'), 'e', "Transaction not found");
                 }
-                $ui->display('admin/plan/invoice.tpl');
             } else {
                 r2(getUrl('plan/refill'), 'e', "Failed to refill account");
             }
@@ -1093,7 +1117,7 @@ switch ($action) {
         $plan = _req('plan');
         $append_url = "&search=" . urlencode($search)
             . "&status=" . urlencode($status)
-            . "&router=" . urlencode($type3)
+            . "&router=" . urlencode($router)
             . "&plan=" . urlencode($plan);
         $ui->assign('append_url', $append_url);
         $ui->assign('plan', $plan);

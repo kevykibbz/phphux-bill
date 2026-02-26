@@ -55,9 +55,9 @@
                         <label class="col-md-3 control-label">{Lang::T('Phone OTP Required')}</label>
                         <div class="col-md-5">
                             <select name="allow_phone_otp" id="allow_phone_otp" class="form-control">
-                                <option value="no" {if $_c['allow_phone_otp']=='no' }selected="selected" {/if}>
+                                <option value="no" {if isset($_c['allow_phone_otp']) && $_c['allow_phone_otp']=='no' }selected="selected" {/if}>
                                     {Lang::T('No')}</option>
-                                <option value="yes" {if $_c['allow_phone_otp']=='yes' }selected="selected" {/if}>
+                                <option value="yes" {if isset($_c['allow_phone_otp']) && $_c['allow_phone_otp']=='yes' }selected="selected" {/if}>
                                     {Lang::T('Yes')}
                                 </option>
                             </select>
@@ -71,12 +71,12 @@
                         <label class="col-md-3 control-label">{Lang::T('OTP Method')}</label>
                         <div class="col-md-5">
                             <select name="phone_otp_type" id="phone_otp_type" class="form-control">
-                                <option value="sms" {if $_c['phone_otp_type']=='sms' }selected="selected" {/if}>
+                                <option value="sms" {if isset($_c['phone_otp_type']) && $_c['phone_otp_type']=='sms' }selected="selected" {/if}>
                                     {Lang::T('By SMS')}
-                                <option value="whatsapp" {if $_c['phone_otp_type']=='whatsapp' }selected="selected"
+                                <option value="whatsapp" {if isset($_c['phone_otp_type']) && $_c['phone_otp_type']=='whatsapp' }selected="selected"
                                     {/if}>
                                     {Lang::T('by WhatsApp')}
-                                <option value="both" {if $_c['phone_otp_type']=='both' }selected="selected" {/if}>
+                                <option value="both" {if isset($_c['phone_otp_type']) && $_c['phone_otp_type']=='both' }selected="selected" {/if}>
                                     {Lang::T('By WhatsApp and SMS')}
                                 </option>
                             </select>
@@ -89,9 +89,9 @@
                         <label class="col-md-3 control-label">{Lang::T('Email OTP Required')}</label>
                         <div class="col-md-5">
                             <select name="allow_email_otp" id="allow_email_otp" class="form-control">
-                                <option value="no" {if $_c['allow_email_otp']=='no' }selected="selected" {/if}>
+                                <option value="no" {if isset($_c['allow_email_otp']) && $_c['allow_email_otp']=='no' }selected="selected" {/if}>
                                     {Lang::T('No')}</option>
-                                <option value="yes" {if $_c['allow_email_otp']=='yes' }selected="selected" {/if}>
+                                <option value="yes" {if isset($_c['allow_email_otp']) && $_c['allow_email_otp']=='yes' }selected="selected" {/if}>
                                     {Lang::T('Yes')}
                                 </option>
                             </select>
@@ -105,9 +105,9 @@
                         <label class="col-md-3 control-label">{Lang::T('Show Bandwidth Plan')}</label>
                         <div class="col-md-5">
                             <select name="show_bandwidth_plan" id="show_bandwidth_plan" class="form-control">
-                                <option value="no" {if $_c['show_bandwidth_plan']=='no' }selected="selected" {/if}>
+                                <option value="no" {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan']=='no' }selected="selected" {/if}>
                                     {Lang::T('No')}</option>
-                                <option value="yes" {if $_c['show_bandwidth_plan']=='yes' }selected="selected" {/if}>
+                                <option value="yes" {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan']=='yes' }selected="selected" {/if}>
                                     {Lang::T('Yes')}</option>
                             </select>
                         </div>
@@ -118,10 +118,10 @@
                         <label class="col-md-3 control-label">{Lang::T('Hotspot Auth Method')}</label>
                         <div class="col-md-5">
                             <select name="hs_auth_method" id="auth_method" class="form-control">
-                                <option value="api" {if $_c['hs_auth_method']=='api' }selected="selected" {/if}>
+                                <option value="api" {if isset($_c['hs_auth_method']) && $_c['hs_auth_method']=='api' }selected="selected" {/if}>
                                     {Lang::T('Api')}
                                 </option>
-                                <option value="hchap" {if $_c['hs_auth_method']=='hchap' }selected="selected" {/if}>
+                                <option value="hchap" {if isset($_c['hs_auth_method']) && $_c['hs_auth_method']=='hchap' }selected="selected" {/if}>
                                     {Lang::T('Http-Chap')}
                                 </option>
                             </select>
@@ -138,7 +138,7 @@
                         <label class="col-md-3 control-label">{Lang::T('Radius Rest Interim-Update')}</label>
                         <div class="col-md-5">
                             <input type="number" class="form-control" id="frrest_interim_update" name="frrest_interim_update"
-                                value="{if $_c['frrest_interim_update']}{$_c['frrest_interim_update']}{else}0{/if}">
+                                value="{if isset($_c['frrest_interim_update']) && $_c['frrest_interim_update']}{$_c['frrest_interim_update']}{else}0{/if}">
                         </div>
                         <p class="help-block col-md-4"><small>
                                 {Lang::T('in minutes, leave 0 to disable this feature.')}</small>
@@ -164,9 +164,9 @@
                         <label class="col-md-3 control-label">{Lang::T('Extend Package Expiry')}</label>
                         <div class="col-md-5">
                             <select name="extend_expiry" id="extend_expiry" class="form-control">
-                                <option value="yes" {if $_c['extend_expiry']!='no' }selected="selected" {/if}>
+                                <option value="yes" {if !isset($_c['extend_expiry']) || $_c['extend_expiry']!='no' }selected="selected" {/if}>
                                     {Lang::T('Yes')}</option>
-                                <option value="no" {if $_c['extend_expiry']=='no' }selected="selected" {/if}>
+                                <option value="no" {if isset($_c['extend_expiry']) && $_c['extend_expiry']=='no' }selected="selected" {/if}>
                                     {Lang::T('No')}</option>
                             </select>
                         </div>

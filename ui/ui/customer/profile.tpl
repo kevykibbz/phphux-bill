@@ -12,7 +12,7 @@
                     <input type="hidden" name="id" value="{$_user['id']}">
                     <center>
                         <img src="{$app_url}/{$UPLOAD_PATH}{$_user['photo']}.thumb.jpg" width="200"
-                            onerror="this.src='{$app_url}/{$UPLOAD_PATH}/user.default.jpg'"
+                            onerror="this.src='{$app_url}/profile_placeholder.png'"
                             class="img-circle img-responsive" alt="Foto" onclick="return deletePhoto({$d['id']})">
                     </center><br>
                     <div class="form-group">

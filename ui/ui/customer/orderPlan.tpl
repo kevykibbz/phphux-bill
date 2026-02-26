@@ -25,7 +25,7 @@
                                                         <td>{Lang::T('Type')}</td>
                                                         <td>{$plan['type']}</td>
                                                     </tr>
-                                                    {if $_c['show_bandwidth_plan'] == 'yes'}
+                                                    {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                                         <tr>
                                                             <td>{Lang::T('Bandwidth')}</td>
                                                             <td api-get-text="{Text::url('autoload_user/bw_name/')}{$plan['id_bw']}"></td>
@@ -82,7 +82,7 @@
                                                         <td>{Lang::T('Type')}</td>
                                                         <td>{$plan['type']}</td>
                                                     </tr>
-                                                    {if $_c['show_bandwidth_plan'] == 'yes'}
+                                                    {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                                         <tr>
                                                             <td>{Lang::T('Bandwidth')}</td>
                                                             <td api-get-text="{Text::url('autoload_user/bw_name/')}{$plan['id_bw']}"></td>
@@ -140,7 +140,7 @@
                                                         <td>{Lang::T('Type')}</td>
                                                         <td>{$plan['type']}</td>
                                                     </tr>
-                                                    {if $_c['show_bandwidth_plan'] == 'yes'}
+                                                    {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                                         <tr>
                                                             <td>{Lang::T('Bandwidth')}</td>
                                                             <td api-get-text="{Text::url('autoload_user/bw_name/')}{$plan['id_bw']}"></td>
@@ -196,7 +196,7 @@
                                                         <td>{Lang::T('Type')}</td>
                                                         <td>{$plan['type']}</td>
                                                     </tr>
-                                                    {if $_c['show_bandwidth_plan'] == 'yes'}
+                                                    {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                                         <tr>
                                                             <td>{Lang::T('Bandwidth')}</td>
                                                             <td api-get-text="{Text::url('autoload_user/bw_name/')}{$plan['id_bw']}"></td>
@@ -265,7 +265,7 @@
                                                             <td>{Lang::T('Type')}</td>
                                                             <td>{$plan['type']}</td>
                                                         </tr>
-                                                        {if $_c['show_bandwidth_plan'] == 'yes'}
+                                                        {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                                             <tr>
                                                                 <td>{Lang::T('Bandwidth')}</td>
                                                                 <td api-get-text="{Text::url('autoload_user/bw_name/')}{$plan['id_bw']}">
@@ -321,7 +321,7 @@
                                                             <td>{Lang::T('Type')}</td>
                                                             <td>{$plan['type']}</td>
                                                         </tr>
-                                                        {if $_c['show_bandwidth_plan'] == 'yes'}
+                                                        {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                                             <tr>
                                                                 <td>{Lang::T('Bandwidth')}</td>
                                                                 <td api-get-text="{Text::url('autoload_user/bw_name/')}{$plan['id_bw']}">
@@ -377,7 +377,7 @@
                                                             <td>{Lang::T('Type')}</td>
                                                             <td>{$plan['type']}</td>
                                                         </tr>
-                                                        {if $_c['show_bandwidth_plan'] == 'yes'}
+                                                        {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                                             <tr>
                                                                 <td>{Lang::T('Bandwidth')}</td>
                                                                 <td api-get-text="{Text::url('autoload_user/bw_name/')}{$plan['id_bw']}">
@@ -437,7 +437,7 @@
                                                         <td>{Lang::T('Type')}</td>
                                                         <td>{$plan['type']}</td>
                                                     </tr>
-                                                    {if $_c['show_bandwidth_plan'] == 'yes'}
+                                                    {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                                         <tr>
                                                             <td>{Lang::T('Bandwidth')}</td>
                                                             <td api-get-text="{Text::url('autoload_user/bw_name/')}{$plan['id_bw']}">
@@ -491,7 +491,7 @@
                                                         <td>{Lang::T('Type')}</td>
                                                         <td>{$plan['type']}</td>
                                                     </tr>
-                                                    {if $_c['show_bandwidth_plan'] == 'yes'}
+                                                    {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                                         <tr>
                                                             <td>{Lang::T('Bandwidth')}</td>
                                                             <td api-get-text="{Text::url('autoload_user/bw_name/')}{$plan['id_bw']}">
@@ -545,7 +545,7 @@
                                                         <td>{Lang::T('Type')}</td>
                                                         <td>{$plan['type']}</td>
                                                     </tr>
-                                                    {if $_c['show_bandwidth_plan'] == 'yes'}
+                                                    {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                                         <tr>
                                                             <td>{Lang::T('Bandwidth')}</td>
                                                             <td api-get-text="{Text::url('autoload_user/bw_name/')}{$plan['id_bw']}">

@@ -13,8 +13,8 @@ class Admin
     {
         global $db_pass, $config, $isApi;
 
-        $enable_session_timeout = $config['enable_session_timeout'] == 1;
-        $session_timeout_duration = $config['session_timeout_duration'] ? intval($config['session_timeout_duration'] * 60) : intval(60 * 60); // Convert minutes to seconds
+        $enable_session_timeout = isset($config['enable_session_timeout']) && $config['enable_session_timeout'] == 1;
+        $session_timeout_duration = !empty($config['session_timeout_duration']) ? intval($config['session_timeout_duration'] * 60) : intval(60 * 60); // Convert minutes to seconds
         if ($isApi) {
             $enable_session_timeout = false;
         }
@@ -40,7 +40,7 @@ class Admin
             $isValid = self::validateToken($_SESSION['aid'], $_COOKIE['aid']);
             if (!$isValid) {
                 self::removeCookie();
-                _alert(Lang::T('Token has expired. Please log in again.') . '.'.$_SESSION['aid'], 'danger', "admin");
+                _alert(Lang::T('Token has expired. Please log in again.') . '.' . $_SESSION['aid'], 'danger', "admin");
                 return 0;
             }
             return $_SESSION['aid'];
@@ -153,7 +153,7 @@ class Admin
     {
         global $config;
         $query =  ORM::for_table('tbl_users')->select('login_token')->findOne($aid);
-        if ($config['single_session'] != 'yes') {
+        if (!isset($config['single_session']) || $config['single_session'] != 'yes') {
             return true; // For multi-session, any token is valid
         }
         if (empty($query)) {

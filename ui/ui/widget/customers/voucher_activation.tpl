@@ -1,5 +1,5 @@
 
-{if $_c['disable_voucher'] != 'yes'}
+{if !isset($_c['disable_voucher']) || $_c['disable_voucher'] != 'yes'}
     <div class="box box-primary box-solid mb30">
         <div class="box-header">
             <h3 class="box-title">{Lang::T('Voucher Activation')}</h3>
@@ -13,7 +13,7 @@
                                 class="glyphicon glyphicon-qrcode"></i></a>
                     </span>
                     <input type="text" id="code" name="code" class="form-control"
-                        placeholder="{Lang::T('Enter voucher code here')}" value="{$code}">
+                        placeholder="{Lang::T('Enter voucher code here')}" value="{if isset($code)}{$code}{/if}">
                     <span class="input-group-btn">
                         <button class="btn btn-primary" type="submit">{Lang::T('Recharge')}</button>
                     </span>
@@ -26,7 +26,7 @@
                     <i class="ion ion-ios-cart"></i>
                     {Lang::T('Order Voucher')}
                 </a>
-                {if $_c['payment_gateway'] != 'none' or $_c['payment_gateway'] == '' }
+                {if !isset($_c['payment_gateway']) || $_c['payment_gateway'] != 'none' || $_c['payment_gateway'] == '' }
                     <a href="{Text::url('order/package')}" class="btn btn-default">
                         <i class="ion ion-ios-cart"></i>
                         {Lang::T('Order Package')}

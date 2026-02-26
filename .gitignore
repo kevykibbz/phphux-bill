@@ -4,11 +4,19 @@ config.php
 .env.*
 *.local
 
+# Private & Sensitive Files
+private/
+secrets.txt
+*.secret
+*.key
+
 # Scripts & Backups (organized in scripts/)
 scripts/*.backup
 scripts/config.php*
 scripts/cookies.txt
 scripts/*.tmp
+scripts/setup/*.sql
+scripts/setup/add_missing_configs.php
 
 # Sensitive Documentation (now organized in docs/)
 docs/deployment/VERCEL_DEPLOYMENT.md
@@ -135,11 +143,6 @@ tests/fixtures/data/*.test.json
 !tests/**/*.md
 !tests/**/README.md
 
-# Summary
-CODEBASE_SUMMARY.md
-DEVELOPMENT_GUIDELINES.md
-PROJECT_MEMORY.md
-PROJECT_STRUCTURE.md
-
-# AI Instructions
+# AI Instructions & Bugs
 .ai-instructions.md
+/bugs/*

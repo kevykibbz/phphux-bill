@@ -14,13 +14,17 @@
 <body class="hold-transition lockscreen">
     <div class="lockscreen-wrapper">
         <div class="panel panel-danger">
-            <div class="panel-heading">{ucwords(Lang::T("Internal Error"))}</div>
+            <div class="panel-heading">{if isset($error_title)}{$error_title}{else}{ucwords(Lang::T("Internal Error"))}{/if}</div>
             <div class="panel-body">
-                {Lang::T("Sorry, the software failed to process the request, if it still happening, please tell")}
-                {$_c['CompanyName']}
+                {if isset($error_message)}
+                    {$error_message}
+                {else}
+                    {Lang::T("Sorry, the software failed to process the request, if it still happening, please tell")}
+                    {$_c['CompanyName']}
+                {/if}
             </div>
             <div class="panel-footer">
-                <a href="{$url}" id="button" class="btn btn-danger btn-block">{Lang::T('Try Again')}</a>
+                <a href="{if isset($url)}{$url}{else}javascript:history.back(){/if}" id="button" class="btn btn-danger btn-block">{Lang::T('Try Again')}</a>
             </div>
         </div>
         <div class="lockscreen-footer text-center">
@@ -28,7 +32,7 @@
         </div>
     </div>
 
-    {if $_c['tawkto'] != ''}
+    {if isset($_c['tawkto']) && $_c['tawkto'] != ''}
         <!--Start of Tawk.to Script-->
         <script type="text/javascript">
             var Tawk_API = Tawk_API || {},

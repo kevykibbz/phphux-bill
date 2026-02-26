@@ -17,6 +17,7 @@ class Http
     public static function getData($url, $headers = [], $connect_timeout = 3000, $wait_timeout = 3000)
     {
         global $http_proxy, $http_proxyauth, $admin;
+        $error_msg = '';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, 0);
@@ -36,7 +37,6 @@ class Http
         if (curl_errno($ch)) {
             $error_msg = curl_error($ch);
         }
-        curl_close($ch);
         if ($admin && $error_msg) {
             Message::sendTelegram(
                 "Http::getData Error:\n" .
@@ -52,6 +52,7 @@ class Http
     public static function postJsonData($url, $array_post, $headers = [], $basic = null, $connect_timeout = 3000, $wait_timeout = 3000)
     {
         global $http_proxy, $http_proxyauth, $admin;
+        $error_msg = '';
         $headers[] = 'Content-Type: application/json';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -78,7 +79,6 @@ class Http
         if (curl_errno($ch)) {
             $error_msg = curl_error($ch);
         }
-        curl_close($ch);
         if ($admin && $error_msg) {
             Message::sendTelegram(
                 "Http::postJsonData:\n" .
@@ -95,6 +95,7 @@ class Http
     public static function postData($url, $array_post, $headers = [], $basic = null, $connect_timeout = 3000, $wait_timeout = 3000)
     {
         global $http_proxy, $http_proxyauth, $admin;
+        $error_msg = '';
         $headers[] = 'Content-Type: application/x-www-form-urlencoded';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -121,7 +122,6 @@ class Http
         if (curl_errno($ch)) {
             $error_msg = curl_error($ch);
         }
-        curl_close($ch);
         if ($admin && $error_msg) {
             Message::sendTelegram(
                 "Http::postData Error:\n" .

@@ -26,7 +26,7 @@ if (empty($tipeUser)) {
 }
 $ui->assign('tipeUser', $tipeUser);
 
-$reset_day = $config['reset_day'];
+$reset_day = $config['reset_day'] ?? 1;
 if (empty($reset_day)) {
     $reset_day = 1;
 }
@@ -49,11 +49,11 @@ if (in_array($tipeUser, ['SuperAdmin', 'Admin'])) {
 $widgets = ORM::for_table('tbl_widgets')->where("enabled", 1)->where('user', $tipeUser)->order_by_asc("orders")->findArray();
 $count = count($widgets);
 for ($i = 0; $i < $count; $i++) {
-    try{
-        if(file_exists($WIDGET_PATH . DIRECTORY_SEPARATOR . $widgets[$i]['widget'].".php")){
-            require_once $WIDGET_PATH . DIRECTORY_SEPARATOR . $widgets[$i]['widget'].".php";
+    try {
+        if (file_exists($WIDGET_PATH . DIRECTORY_SEPARATOR . $widgets[$i]['widget'] . ".php")) {
+            require_once $WIDGET_PATH . DIRECTORY_SEPARATOR . $widgets[$i]['widget'] . ".php";
             $widgets[$i]['content'] = (new $widgets[$i]['widget'])->getWidget($widgets[$i]);
-        }else{
+        } else {
             $widgets[$i]['content'] = "Widget not found";
         }
     } catch (Throwable $e) {

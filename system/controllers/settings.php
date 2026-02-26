@@ -146,7 +146,8 @@ switch ($action) {
         $r = ORM::for_table('tbl_routers')->find_many();
         $ui->assign('r', $r);
         if (function_exists("shell_exec")) {
-            $php = trim(shell_exec('which php'));
+            $php = shell_exec('which php');
+            $php = $php ? trim($php) : '';
             if (empty($php)) {
                 $php = 'php';
             }
@@ -361,6 +362,26 @@ switch ($action) {
         run_hook('view_localisation'); #HOOK
         $csrf_token = Csrf::generateAndStoreToken();
         $ui->assign('csrf_token', $csrf_token);
+
+        // Initialize plan name config keys if they don't exist (both in memory and database)
+        $plan_configs = ['radius_plan', 'hotspot_plan', 'pppoe_plan', 'vpn_plan'];
+        foreach ($plan_configs as $plan_config) {
+            if (!isset($config[$plan_config])) {
+                $config[$plan_config] = '';
+                // Create database entry if it doesn't exist
+                $d = ORM::for_table('tbl_appconfig')->where('setting', $plan_config)->find_one();
+                if (!$d) {
+                    $d = ORM::for_table('tbl_appconfig')->create();
+                    $d->setting = $plan_config;
+                    $d->value = '';
+                    $d->save();
+                }
+            }
+        }
+
+        // Reassign config to template after adding missing keys
+        $ui->assign('_c', $config);
+
         $ui->display('admin/settings/localisation.tpl');
         break;
 
@@ -484,11 +505,11 @@ switch ($action) {
             } else if ($admin['user_type'] == 'Admin') {
                 $query = ORM::for_table('tbl_users')
                     ->where_like('username', '%' . $search . '%')->where_any_is([
-                            ['user_type' => 'Report'],
-                            ['user_type' => 'Agent'],
-                            ['user_type' => 'Sales'],
-                            ['id' => $admin['id']]
-                        ])->order_by_asc('id');
+                        ['user_type' => 'Report'],
+                        ['user_type' => 'Agent'],
+                        ['user_type' => 'Sales'],
+                        ['id' => $admin['id']]
+                    ])->order_by_asc('id');
                 $d = Paginator::findMany($query, ['search' => $search]);
             } else {
                 $query = ORM::for_table('tbl_users')
@@ -572,8 +593,19 @@ switch ($action) {
         }
         if ($d) {
             run_hook('view_edit_admin'); #HOOK
+
+            // Ensure optional fields have default values to prevent undefined array key warnings
+            $d['city'] = $d['city'] ?? '';
+            $d['subdistrict'] = $d['subdistrict'] ?? '';
+            $d['ward'] = $d['ward'] ?? '';
+
             if ($d['user_type'] == 'Sales') {
-                $ui->assign('agent', ORM::for_table('tbl_users')->where('id', $d['root'])->find_array()[0]);
+                $agent = ORM::for_table('tbl_users')->where('id', $d['root'])->find_array()[0];
+                // Ensure agent fields also have defaults
+                $agent['city'] = $agent['city'] ?? '';
+                $agent['subdistrict'] = $agent['subdistrict'] ?? '';
+                $agent['ward'] = $agent['ward'] ?? '';
+                $ui->assign('agent', $agent);
             }
             $ui->assign('d', $d);
             $ui->assign('_title', $d['username']);

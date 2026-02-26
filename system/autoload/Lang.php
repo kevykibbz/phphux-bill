@@ -61,6 +61,9 @@ class Lang
     public static function moneyFormat($var)
     {
         global $config;
+        if ($var === null) {
+            $var = 0;
+        }
         return $config['currency_code'] . ' ' . number_format($var, 0, $config['dec_point'], $config['thousands_sep']);
     }
 
@@ -77,13 +80,16 @@ class Lang
     public static function dateFormat($date)
     {
         global $config;
+        if (empty($date)) {
+            return '';
+        }
         return date($config['date_format'], strtotime($date));
     }
 
     public static function dateTimeFormat($date)
     {
         global $config;
-        if (strtotime($date) < strtotime("2000-01-01 00:00:00")) {
+        if (empty($date) || strtotime($date) === false || strtotime($date) < strtotime("2000-01-01 00:00:00")) {
             return "";
         } else {
             return date($config['date_format'] . ' H:i', strtotime($date));
@@ -93,16 +99,24 @@ class Lang
     public static function dateAndTimeFormat($date, $time)
     {
         global $config;
+        if (empty($date) || empty($time)) {
+            return '';
+        }
         return date($config['date_format'] . ' H:i', strtotime("$date $time"));
     }
 
     public static function timeElapsed($datetime, $full = false)
     {
+        if (empty($datetime)) {
+            return '';
+        }
         $now = new DateTime(date("Y-m-d H:i:s"));
         $ago = new DateTime($datetime);
         $diff = $now->diff($ago);
-        $diff->w = floor($diff->d / 7);
-        $diff->d -= $diff->w * 7;
+
+        // Calculate weeks separately to avoid dynamic property creation
+        $weeks = floor($diff->d / 7);
+        $days = $diff->d - ($weeks * 7);
 
         $string = array(
             'y' => Lang::T('year'),
@@ -113,9 +127,21 @@ class Lang
             'i' => Lang::T('minute'),
             's' => Lang::T('second'),
         );
+
+        // Create an array of values to avoid accessing dynamic property
+        $values = [
+            'y' => $diff->y,
+            'm' => $diff->m,
+            'w' => $weeks,
+            'd' => $days,
+            'h' => $diff->h,
+            'i' => $diff->i,
+            's' => $diff->s,
+        ];
+
         foreach ($string as $k => &$v) {
-            if ($diff->$k) {
-                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? '' : '');
+            if ($values[$k]) {
+                $v = $values[$k] . ' ' . $v . ($values[$k] > 1 ? '' : '');
             } else {
                 unset($string[$k]);
             }
@@ -255,5 +281,4 @@ class Lang
             return substr($text, 0, 4) . "******" . substr($text, -3, 3);
         }
     }
-
 }

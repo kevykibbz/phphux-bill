@@ -111,7 +111,7 @@
                         <label class="col-md-2 control-label">{Lang::T('Radius Package')}</label>
                         <div class="col-md-6">
                             <input type="text" class="form-control" id="radius_plan" name="radius_plan"
-                                value="{if $_c['radius_plan']==''}Radius Plan{else}{$_c['radius_plan']}{/if}">
+                                value="{if isset($_c['radius_plan']) && $_c['radius_plan']!=''}{$_c['radius_plan']}{else}Radius Plan{/if}">
                         </div>
                         <span class="help-block col-md-4">{Lang::T('Change title in user Plan order')}</span>
                     </div>
@@ -119,7 +119,7 @@
                         <label class="col-md-2 control-label">{Lang::T('Hotspot Package')}</label>
                         <div class="col-md-6">
                             <input type="text" class="form-control" id="hotspot_plan" name="hotspot_plan"
-                                value="{if $_c['hotspot_plan']==''}Hotspot Plan{else}{$_c['hotspot_plan']}{/if}">
+                                value="{if isset($_c['hotspot_plan']) && $_c['hotspot_plan']!=''}{$_c['hotspot_plan']}{else}Hotspot Plan{/if}">
                         </div>
                         <span class="help-block col-md-4">{Lang::T('Change title in user Plan order')}</span>
                     </div>
@@ -127,7 +127,7 @@
                         <label class="col-md-2 control-label">{Lang::T('PPPOE Package')}</label>
                         <div class="col-md-6">
                             <input type="text" class="form-control" id="pppoe_plan" name="pppoe_plan"
-                                value="{if $_c['pppoe_plan']==''}PPPOE Plan{else}{$_c['pppoe_plan']}{/if}">
+                                value="{if isset($_c['pppoe_plan']) && $_c['pppoe_plan']!=''}{$_c['pppoe_plan']}{else}PPPOE Plan{/if}">
                         </div>
                         <span class="help-block col-md-4">{Lang::T('Change title in user Plan order')}</span>
                     </div>
@@ -135,7 +135,7 @@
                         <label class="col-md-2 control-label">{Lang::T('VPN Package')}</label>
                         <div class="col-md-6">
                             <input type="text" class="form-control" id="vpn_plan" name="vpn_plan"
-                                value="{if $_c['vpn_plan']==''}VPN Plan{else}{$_c['vpn_plan']}{/if}">
+                                value="{if isset($_c['vpn_plan']) && $_c['vpn_plan']!=''}{$_c['vpn_plan']}{else}VPN Plan{/if}">
                         </div>
                         <span class="help-block col-md-4">{Lang::T('Change title in user Plan order')}</span>
                     </div>

@@ -45,7 +45,7 @@ EOT;
         if (isset($routes['2']) && !empty($routes['2'])) {
             $ui->assign('cust', ORM::for_table('tbl_customers')->find_one($routes['2']));
         }
-        $id = $routes['2'];
+        $id = $routes['2'] ?? '';
         $ui->assign('id', $id);
         $ui->assign('xfooter', $select2_customer);
         $ui->display('admin/message/single.tpl');
@@ -115,6 +115,13 @@ EOT;
         }
 
         $ui->assign('routers', ORM::forTable('tbl_routers')->where('enabled', '1')->find_many());
+        $ui->assign('page', _req('page', 0));
+        $ui->assign('group', _req('group', 'all'));
+        $ui->assign('service', _req('service', 'all'));
+        $ui->assign('via', _req('via', 'sms'));
+        $ui->assign('batch', _req('batch', '5'));
+        $ui->assign('message', _req('message', ''));
+        $ui->assign('totalCustomers', 0);
         $ui->display('admin/message/bulk.tpl');
         break;
 

@@ -11,7 +11,7 @@
                         <label class="col-md-3 control-label">{Lang::T('Username')}</label>
                         <div class="col-md-9">
                             <div class="input-group">
-                                {if $_c['country_code_phone'] != ''}
+                                {if isset($_c['country_code_phone']) && $_c['country_code_phone'] != ''}
                                     <span class="input-group-addon" id="basic-addon1"><i
                                             class="glyphicon glyphicon-phone-alt"></i></span>
                                 {else}
@@ -19,7 +19,7 @@
                                             class="glyphicon glyphicon-user"></i></span>
                                 {/if}
                                 <input type="text" class="form-control" name="username" required
-                                    placeholder="{if $_c['country_code_phone']!= ''}{$_c['country_code_phone']} {Lang::T('Phone Number')}{else}{Lang::T('Usernames')}{/if}">
+                                    placeholder="{if isset($_c['country_code_phone']) && $_c['country_code_phone']!= ''}{$_c['country_code_phone']} {Lang::T('Phone Number')}{else}{Lang::T('Usernames')}{/if}">
                             </div>
                         </div>
                     </div>
@@ -39,14 +39,14 @@
                         <label class="col-md-3 control-label">{Lang::T('Phone Number')}</label>
                         <div class="col-md-9">
                             <div class="input-group">
-                                {if $_c['country_code_phone']!= ''}
+                                {if isset($_c['country_code_phone']) && $_c['country_code_phone']!= ''}
                                     <span class="input-group-addon" id="basic-addon1">+</span>
                                 {else}
                                     <span class="input-group-addon" id="basic-addon1"><i
                                             class="glyphicon glyphicon-phone-alt"></i></span>
                                 {/if}
                                 <input type="text" class="form-control" name="phonenumber"
-                                    placeholder="{if $_c['country_code_phone']!= ''}{$_c['country_code_phone']}{/if} {Lang::T('Phone Number')}">
+                                    placeholder="{if isset($_c['country_code_phone']) && $_c['country_code_phone']!= ''}{$_c['country_code_phone']}{/if} {Lang::T('Phone Number')}">
                             </div>
                         </div>
                     </div>

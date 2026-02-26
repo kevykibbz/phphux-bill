@@ -307,7 +307,7 @@ switch ($do) {
     default:
         run_hook('customer_view_login'); #HOOK
         $csrf_token = Csrf::generateAndStoreToken();
-        if ($config['disable_registration'] == 'yes') {
+        if (($config['disable_registration'] ?? '') == 'yes') {
             $ui->assign('csrf_token', $csrf_token);
             $ui->assign('_title', Lang::T('Activation'));
             $ui->assign('code', alphanumeric(_get('code'), "-"));
@@ -343,7 +343,7 @@ switch ($do) {
             $ui->assign('favicon', $favicon);
             $ui->assign('csrf_token', $csrf_token);
             $ui->assign('_title', Lang::T('Login'));
-            switch ($config['login_page_type']) {
+            switch ($config['login_page_type'] ?? 'default') {
                 case 'custom':
                     $ui->display('customer/login-custom-' . $config['login_Page_template'] . '.tpl');
                     break;

@@ -10,6 +10,15 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
     header('location: ../');
     die();
 }
+
+// Enable error reporting for debugging (disable in production)
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+
+// Increase memory limit for Smarty template compilation
+ini_set('memory_limit', '1024M');
+
 $root_path = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR;
 if (!isset($isApi)) {
     $isApi = false;
@@ -70,6 +79,11 @@ require_once $root_path . File::pathFixer('system/orm.php');
 require_once $root_path . File::pathFixer('system/autoload/PEAR2/Autoload.php');
 include $root_path . File::pathFixer('system/autoload/Hookers.php');
 
+// Initialize $db_password for backward compatibility
+if (!isset($db_password)) {
+    $db_password = null;
+}
+
 if ($db_password != null && ($db_pass == null || empty($db_pass))) {
     // compability for old version
     $db_pass = $db_password;
@@ -113,19 +127,19 @@ foreach ($result as $value) {
     $config[$value['setting']] = $value['value'];
 }
 
-if(empty($config['dashboard_Admin'])){
+if (empty($config['dashboard_Admin'])) {
     $config['dashboard_Admin'] = "12.7,5.12";
 }
 
-if(empty($config['dashboard_Agent'])){
+if (empty($config['dashboard_Agent'])) {
     $config['dashboard_Agent'] = "12.7,5.12";
 }
 
-if(empty($config['dashboard_Sales'])){
+if (empty($config['dashboard_Sales'])) {
     $config['dashboard_Sales'] = "12.7,5.12";
 }
 
-if(empty($config['dashboard_Customer'])){
+if (empty($config['dashboard_Customer'])) {
     $config['dashboard_Customer'] = "6,6";
 }
 
@@ -139,7 +153,7 @@ if (empty($http_proxy) && !empty($config['http_proxy'])) {
 }
 date_default_timezone_set($config['timezone']);
 
-if ((!empty($radius_user) && $config['radius_enable']) || _post('radius_enable')) {
+if ((!empty($radius_user) && !empty($config['radius_enable'])) || _post('radius_enable')) {
     if (!empty($radius_password)) {
         // compability for old version
         $radius_pass = $radius_password;

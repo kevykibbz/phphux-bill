@@ -12,7 +12,8 @@ class Text
 
     public static function toHex($string)
     {
-        return "\x" . implode("\x", str_split(array_shift(unpack('H*', $string)), 2));
+        $hex = unpack('H*', $string);
+        return "\x" . implode("\x", str_split(array_shift($hex), 2));
     }
 
     public static function alphanumeric($str, $tambahan = "")
@@ -97,13 +98,14 @@ class Text
         return $result;
     }
 
-    public static function jsonArray21Array($array){
+    public static function jsonArray21Array($array)
+    {
         $text = self::jsonArray2text($array);
         $lines = explode("\n", $text);
         $result = [];
-        foreach($lines as $line){
+        foreach ($lines as $line) {
             $parts = explode(' = ', $line);
-            if(count($parts) == 2){
+            if (count($parts) == 2) {
                 $result[trim($parts[0])] = trim($parts[1]);
             }
         }
@@ -116,10 +118,11 @@ class Text
      * and variable will be merge with implode
      * @return string the URL with all the arguments combined.
      */
-    public static function url(...$data){
+    public static function url(...$data)
+    {
         global $config;
         $url = implode("", $data);
-        if ($config['url_canonical'] == 'yes') {
+        if (isset($config['url_canonical']) && $config['url_canonical'] == 'yes') {
             $u = str_replace('?_route=', '', U);
             $pos = strpos($url, '&');
             if ($pos === false) {
@@ -132,16 +135,18 @@ class Text
         }
     }
 
-    public static function fixUrl($url){
+    public static function fixUrl($url)
+    {
         //if url dont have ? then add it with replace first & to ?
-        if(strpos($url, '?') === false && strpos($url, '&')!== false){
-            return substr($url, 0, strpos($url, '&')). '?'. substr($url, strpos($url, '&')+1);
+        if (strpos($url, '?') === false && strpos($url, '&') !== false) {
+            return substr($url, 0, strpos($url, '&')) . '?' . substr($url, strpos($url, '&') + 1);
         }
         return $url;
     }
 
     // this will return & or ?
-    public static function isQA(){
+    public static function isQA()
+    {
         global $config;
         if ($config['url_canonical'] == 'yes') {
             return '?';

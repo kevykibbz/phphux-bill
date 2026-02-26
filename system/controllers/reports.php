@@ -58,7 +58,7 @@ switch ($action) {
                             $w = [];
                             $v = [];
                             foreach ($mts as $mt) {
-                                $w[] ='method';
+                                $w[] = 'method';
                                 $v[] = "$mt - %";
                             }
                             $query->where_likes($w, $v);
@@ -91,7 +91,7 @@ switch ($action) {
                             $w = [];
                             $v = [];
                             foreach ($mts as $mt) {
-                                $w[] ='method';
+                                $w[] = 'method';
                                 $v[] = "$mt - %";
                             }
                             $query->where_likes($w, $v);
@@ -161,7 +161,7 @@ switch ($action) {
                         $w = [];
                         $v = [];
                         foreach ($mts as $mt) {
-                            $w[] ='method';
+                            $w[] = 'method';
                             $v[] = "$mt - %";
                         }
                         $query->where_likes($w, $v);
@@ -246,7 +246,7 @@ switch ($action) {
                         $total += $v;
                         $array['data'][] = $v;
                     }
-                    if($total>0){
+                    if ($total > 0) {
                         $result['datas'][] = $array;
                     }
                 }
@@ -334,10 +334,10 @@ switch ($action) {
         } else {
             $start_date = date('Y-m-' . $reset_day, strtotime("-1 MONTH"));
         }
-        $tps = ($_GET['tps']) ? $_GET['tps'] : $types;
-        $mts = ($_GET['mts']) ? $_GET['mts'] : $methods;
-        $rts = ($_GET['rts']) ? $_GET['rts'] : $routers;
-        $plns = ($_GET['plns']) ? $_GET['plns'] : $plans;
+        $tps = $_GET['tps'] ?? $types;
+        $mts = $_GET['mts'] ?? $methods;
+        $rts = $_GET['rts'] ?? $routers;
+        $plns = $_GET['plns'] ?? $plans;
         $sd = _req('sd', $start_date);
         $ed = _req('ed', $mdate);
         $ts = _req('ts', '00:00:00');
@@ -356,7 +356,7 @@ switch ($action) {
             $w = [];
             $v = [];
             foreach ($mts as $mt) {
-                $w[] ='method';
+                $w[] = 'method';
                 $v[] = "$mt - %";
             }
             $query->where_likes($w, $v);

@@ -61,8 +61,8 @@
                             </tr>
                             <tr>
                                 <td>{Lang::T('expired')}</td>
-                                <td>{date($_c['date_format'], strtotime($trx['expired_date']))}
-                                    {date('H:i', strtotime($trx['expired_date']))} </td>
+                                <td>{if !empty($trx['expired_date'])}{date($_c['date_format'], strtotime($trx['expired_date']))}
+                                    {date('H:i', strtotime($trx['expired_date']))}{/if} </td>
                             </tr>
                             {if $trx['status']==2}
                                 <tr>
@@ -108,13 +108,13 @@
                                         {if $plan['limit_type'] eq 'Time_Limit' or $plan['limit_type'] eq 'Both_Limit'}
                                             <tr>
                                                 <td>{Lang::T('Time_Limit')}</td>
-                                                <td>{$ds['time_limit']} {$ds['time_unit']}</td>
+                                                <td>{if isset($ds['time_limit'])}{$ds['time_limit']} {$ds['time_unit']}{/if}</td>
                                             </tr>
                                         {/if}
                                         {if $plan['limit_type'] eq 'Data_Limit' or $plan['limit_type'] eq 'Both_Limit'}
                                             <tr>
                                                 <td>{Lang::T('Data_Limit')}</td>
-                                                <td>{$ds['data_limit']} {$ds['data_unit']}</td>
+                                                <td>{if isset($ds['data_limit'])}{$ds['data_limit']} {$ds['data_unit']}{/if}</td>
                                             </tr>
                                         {/if}
                                     {/if}
@@ -123,7 +123,7 @@
                                     <td>{Lang::T('Validity Periode')}</td>
                                     <td>{$plan['validity']} {$plan['validity_unit']}</td>
                                 </tr>
-                                {if $_c['show_bandwidth_plan'] == 'yes'}
+                                {if isset($_c['show_bandwidth_plan']) && $_c['show_bandwidth_plan'] == 'yes'}
                                     <tr>
                                         <td>{Lang::T('Bandwidth Plans')}</td>
                                         <td>{$bandw['name_bw']}<br>{$bandw['rate_down']}{$bandw['rate_down_unit']}/{$bandw['rate_up']}{$bandw['rate_up_unit']}

@@ -9,7 +9,7 @@ _admin();
 $ui->assign('_title', Lang::T('Customer'));
 $ui->assign('_system_menu', 'customers');
 
-$action = $routes['1'];
+$action = $routes['1'] ?? '';
 $ui->assign('_admin', $admin);
 
 if (empty($action)) {
@@ -81,7 +81,7 @@ switch ($action) {
             echo '"' . implode('","', $row) . "\"\n";
         }
         break;
-        //case csv-prepaid can be moved later to (plan.php)  php file dealing with prepaid users
+    //case csv-prepaid can be moved later to (plan.php)  php file dealing with prepaid users
     case 'csv-prepaid':
         if (!in_array($admin['user_type'], ['SuperAdmin', 'Admin'])) {
             _alert(Lang::T('You do not have permission to access this page'), 'danger', "dashboard");
@@ -176,10 +176,10 @@ switch ($action) {
             $channel = $admin['fullname'];
             $cust = User::_info($id_customer);
             $plan = ORM::for_table('tbl_plans')->find_one($b['plan_id']);
-			$add_inv = User::getAttribute("Invoice", $id_customer);
-			if (!empty($add_inv)) {
-				$plan['price'] = $add_inv;
-			}
+            $add_inv = User::getAttribute("Invoice", $id_customer);
+            if (!empty($add_inv)) {
+                $plan['price'] = $add_inv;
+            }
             $tax_enable = isset($config['enable_tax']) ? $config['enable_tax'] : 'no';
             $tax_rate_setting = isset($config['tax_rate']) ? $config['tax_rate'] : null;
             $custom_tax_rate = isset($config['custom_tax_rate']) ? (float)$config['custom_tax_rate'] : null;
@@ -228,7 +228,7 @@ switch ($action) {
             $ui->assign('channel', $channel);
             $ui->assign('server', $b['routers']);
             $ui->assign('plan', $plan);
-			$ui->assign('add_inv', $add_inv);
+            $ui->assign('add_inv', $add_inv);
             $ui->assign('csrf_token',  Csrf::generateAndStoreToken());
             $ui->display('admin/plan/recharge-confirm.tpl');
         } else {
@@ -291,7 +291,7 @@ switch ($action) {
                             require_once $dvc;
                             if (method_exists($dvc, 'sync_customer')) {
                                 (new $p['device'])->sync_customer($c, $p);
-                            }else{
+                            } else {
                                 (new $p['device'])->add_customer($c, $p);
                             }
                         } else {
@@ -323,21 +323,20 @@ switch ($action) {
         break;
     case 'viewu':
         $customer = ORM::for_table('tbl_customers')->where('username', $routes['2'])->find_one();
+        if (!$customer) {
+            $customer = ORM::for_table('tbl_customers')->find_one($routes['2']);
+        }
+        break;
     case 'view':
         $id = $routes['2'];
         run_hook('view_customer'); #HOOK
-        if (!$customer) {
-            $customer = ORM::for_table('tbl_customers')->find_one($id);
-        }
+        $customer = ORM::for_table('tbl_customers')->find_one($id);
         if ($customer) {
             // Fetch the Customers Attributes values from the tbl_customer_custom_fields table
             $customFields = ORM::for_table('tbl_customers_fields')
                 ->where('customer_id', $customer['id'])
                 ->find_many();
-            $v = $routes['3'];
-            if (empty($v)) {
-                $v = 'activation';
-            }
+            $v = $routes['3'] ?? 'activation';
             switch ($v) {
                 case 'order':
                     $v = 'order';
@@ -363,9 +362,22 @@ switch ($action) {
                     $ui->assign('activation', $activation);
                     break;
             }
+
+            // Ensure optional fields have default values to prevent undefined array key warnings
+            $customerData = $customer->as_array();
+            $customerData['city'] = $customerData['city'] ?? '';
+            $customerData['district'] = $customerData['district'] ?? '';
+            $customerData['state'] = $customerData['state'] ?? '';
+            $customerData['zip'] = $customerData['zip'] ?? '';
+            $customerData['account_type'] = $customerData['account_type'] ?? 'Personal';
+            $customerData['service_type'] = $customerData['service_type'] ?? 'Hotspot';
+            $customerData['pppoe_username'] = $customerData['pppoe_username'] ?? '';
+            $customerData['pppoe_password'] = $customerData['pppoe_password'] ?? '';
+            $customerData['pppoe_ip'] = $customerData['pppoe_ip'] ?? '';
+
             $ui->assign('packages', User::_billing($customer['id']));
             $ui->assign('v', $v);
-            $ui->assign('d', $customer);
+            $ui->assign('d', $customerData);
             $ui->assign('customFields', $customFields);
             $ui->assign('xheader', $leafletpickerHeader);
             $ui->assign('csrf_token',  Csrf::generateAndStoreToken());
@@ -476,8 +488,8 @@ switch ($action) {
         $account_type = _post('account_type');
         $coordinates = _post('coordinates');
         //post Customers Attributes
-        $custom_field_names = (array) $_POST['custom_field_name'];
-        $custom_field_values = (array) $_POST['custom_field_value'];
+        $custom_field_names = (array) ($_POST['custom_field_name'] ?? []);
+        $custom_field_values = (array) ($_POST['custom_field_value'] ?? []);
         //additional information
         $city = _post('city');
         $district = _post('district');
@@ -518,7 +530,7 @@ switch ($action) {
             $d->city = $city;
             $d->district = $district;
             $d->state = $state;
-            $d->zip = $zip;
+            $d->zip = substr($zip, 0, 10); // Limit to 10 characters to prevent SQL truncation
             $d->save();
 
             // Retrieve the customer ID of the newly created customer

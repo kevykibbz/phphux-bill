@@ -1,29 +1,41 @@
 # Vercel Ignore File
-# Only deploy webhook API, not the entire PHPNuxBill
+# Deploy only api/ folder and necessary config files
 
-# Ignore everything except api/ folder
-*
-!api/
-!api/**
-!vercel.json
+# Ignore PHPNuxBill application folders
+/system/
+/ui/
+/admin/
+/pages/
+/pages_template/
+/payment_gateways/
+/private/
+/qrcode/
+/scan/
+/scripts/
+/tests/
+/vendor/
+/bugs/
+/docs/
 
-# Ignore system files
+# Ignore PHPNuxBill root files
+/config.php
+/config.sample.php
+/index.php
+/init.php
+/radius.php
+/update.php
+/LICENSE
+/*.md
+/*.html
+
+# Ignore development files
 .git
 .gitignore
 node_modules
-vendor
-system/cache/*
-system/logs/*
-system/uploads/*
-
-# Ignore sensitive files
-config.php
-.env
-*.sql
-*.bak
-
-# Ignore development files
 *.log
 *.tmp
 .DS_Store
 Thumbs.db
+*.sql
+*.bak
+.env

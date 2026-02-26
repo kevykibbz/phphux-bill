@@ -11,7 +11,7 @@
                         <center>
                             <a href="{$app_url}/{$UPLOAD_PATH}{$d['photo']}" target="foto">
                                 <img src="{$app_url}/{$UPLOAD_PATH}{$d['photo']}.thumb.jpg" width="200"
-                                    onerror="this.src='{$app_url}/{$UPLOAD_PATH}/admin.default.png'" class="img-circle img-responsive" alt="Foto">
+                                    onerror="this.src='{$app_url}/profile_placeholder.png'" class="img-circle img-responsive" alt="Foto">
                             </a>
                         </center><br>
                         <ul class="list-group list-group-unbordered">
@@ -24,15 +24,21 @@
                             <li class="list-group-item">
                                 <b>{Lang::T('Email')}</b> <span class="pull-right">{$d['email']}</span>
                             </li>
+                            {if !empty($d['city'])}
                             <li class="list-group-item">
                                 <b>{Lang::T('City')}</b> <span class="pull-right">{$d['city']}</span>
                             </li>
+                            {/if}
+                            {if !empty($d['subdistrict'])}
                             <li class="list-group-item">
                                 <b>{Lang::T('Sub District')}</b> <span class="pull-right">{$d['subdistrict']}</span>
                             </li>
+                            {/if}
+                            {if !empty($d['ward'])}
                             <li class="list-group-item">
                                 <b>{Lang::T('Ward')}</b> <span class="pull-right">{$d['ward']}</span>
                             </li>
+                            {/if}
                             <li class="list-group-item">
                                 <b>{Lang::T('User Type')}</b> <span class="pull-right">{$d['user_type']}</span>
                             </li>
@@ -60,15 +66,21 @@
                                     <b>{Lang::T('Email')}</b> <span class="pull-right"><a
                                             href="mailto:{$agent['email']}">{$agent['email']}</a></span>
                                 </li>
+                                {if !empty($agent['city'])}
                                 <li class="list-group-item">
                                     <b>{Lang::T('City')}</b> <span class="pull-right">{$agent['city']}</span>
                                 </li>
+                                {/if}
+                                {if !empty($agent['subdistrict'])}
                                 <li class="list-group-item">
                                     <b>{Lang::T('Sub District')}</b> <span class="pull-right">{$agent['subdistrict']}</span>
                                 </li>
+                                {/if}
+                                {if !empty($agent['ward'])}
                                 <li class="list-group-item">
                                     <b>{Lang::T('Ward')}</b> <span class="pull-right">{$agent['ward']}</span>
                                 </li>
+                                {/if}
                             </ul>
                         </div>
                     </div>

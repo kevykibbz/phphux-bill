@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    {if $_c['tawkto'] != ''}
+    {if isset($_c['tawkto']) && $_c['tawkto'] != ''}
         <!--Start of Tawk.to Script-->
         <script type="text/javascript">
             var Tawk_API = Tawk_API || {},

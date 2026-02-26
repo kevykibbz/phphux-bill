@@ -31,9 +31,9 @@
                                     <td>{Lang::moneyFormat($ds['price'])}</td>
                                     <td class="text-primary">{date("{$_c['date_format']} H:i",
                                         strtotime($ds['created_date']))}</td>
-                                    <td class="text-danger">{date("{$_c['date_format']} H:i",
-                                        strtotime($ds['expired_date']))}</td>
-                                    <td class="text-success">{if $ds['status']!=1}{date("{$_c['date_format']} H:i",
+                                    <td class="text-danger">{if !empty($ds['expired_date'])}{date("{$_c['date_format']} H:i",
+                                        strtotime($ds['expired_date']))}{/if}</td>
+                                    <td class="text-success">{if $ds['status']!=1 && !empty($ds['paid_date'])}{date("{$_c['date_format']} H:i",
                                         strtotime($ds['paid_date']))}{/if}</td>
                                     <td>{if $ds['status']==1}{Lang::T('UNPAID')}
                                         {elseif $ds['status']==2}{Lang::T('PAID')}
