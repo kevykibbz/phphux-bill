@@ -845,5 +845,14 @@
     "Transaction": "Transaction",
     "Plan_Type": "Plan_Type",
     "Validity_Periode": "Validity Periode",
-    "Check_for_Payment": "Check for Payment"
+    "Check_for_Payment": "Check for Payment",
+    "Payment_Gateway_is_missing__you_can_purchase_payment_gateway_plugin_from_": "Payment Gateway is missing, you can purchase payment gateway plugin from ",
+    "or_Contact_": "or Contact ",
+    "for_more_informations": "for more informations",
+    "_or_Contact_": " or Contact ",
+    "_for_more_informations": " for more informations",
+    "installed_successfully__Thank_You": "installed successfully. Thank You",
+    "_for_more_information": " for more information",
+    "PAID": "PAID",
+    "Paid_Date": "Paid Date"
 }

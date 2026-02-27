@@ -67,7 +67,7 @@
                 {if Lang::arrayCount($radius_hotspot)>0}
                     <ol class="breadcrumb">
                         <li>{if $_c['radius_plan']==''}Radius Plan{else}{$_c['radius_plan']}{/if}</li>
-                        <li>{if $_c['hotspot_plan']==''}Hotspot Plan{else}{$_c['hotspot_plan']}{/if}</li>
+                        <li>{if isset($_c['hotspot_plan']) && $_c['hotspot_plan']!=''}{$_c['hotspot_plan']}{else}Hotspot Plan{/if}</li>
                     </ol>
                     <div class="row">
                         {foreach $radius_hotspot as $plan}
@@ -181,7 +181,7 @@
                 {if Lang::arrayCount($radius_hotspot)>0}
                     <ol class="breadcrumb">
                         <li>{if $_c['radius_plan']==''}Radius Plan{else}{$_c['radius_plan']}{/if}</li>
-                        <li>{if $_c['hotspot_plan']==''}Hotspot Plan{else}{$_c['hotspot_plan']}{/if}</li>
+                        <li>{if isset($_c['hotspot_plan']) && $_c['hotspot_plan']!=''}{$_c['hotspot_plan']}{else}Hotspot Plan{/if}</li>
                     </ol>
                     <div class="row">
                         {foreach $radius_hotspot as $plan}
@@ -249,7 +249,7 @@
                     </div>
                 {/if}
                 {if $_user['service_type'] == 'Hotspot' && Validator::countRouterPlan($plans_hotspot, $router['name'])>0}
-                    <div class="box-header text-white">{if $_c['hotspot_plan']==''}Hotspot Plan{else}{$_c['hotspot_plan']}{/if}
+                    <div class="box-header text-white">{if isset($_c['hotspot_plan']) && $_c['hotspot_plan']!=''}{$_c['hotspot_plan']}{else}Hotspot Plan{/if}
                     </div>
                     <div class="box-body row">
                         {foreach $plans_hotspot as $plan}
@@ -421,7 +421,7 @@
                                                             (Validator::countRouterPlan($plans_hotspot, $router['name'])>0 || Validator::countRouterPlan($plans_pppoe,
                                                             $router['name'])>0 || Validator::countRouterPlan($plans_vpn,
                                                             $router['name'])>0)}
-                <div class="box-header text-white">{if $_c['hotspot_plan']==''}Hotspot Plan{else}{$_c['hotspot_plan']}{/if}
+                <div class="box-header text-white">{if isset($_c['hotspot_plan']) && $_c['hotspot_plan']!=''}{$_c['hotspot_plan']}{else}Hotspot Plan{/if}
                 </div>
                 <div class="box-body row">
                     {foreach $plans_hotspot as $plan}
